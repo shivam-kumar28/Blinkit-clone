@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f8f2">
+    <title>blinkit | Groceries in minutes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #15231d;
+            --muted: #788079;
+            --line: #e9ece5;
+            --paper: #fff;
+            --canvas: #f7f8f2;
+            --green: #0c8b46;
+            --lime: #d7f36a;
+            --yellow: #f7e846;
+            --coral: #ff765e;
+            --font: "DM Sans", sans-serif;
+            --display: "Manrope", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--canvas);
+            font-family: var(--font);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .wrap {
+            width: min(1190px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .top-note {
+            background: var(--ink);
+            color: #fff;
+            text-align: center;
+            padding: 9px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .3px;
+        }
+
+        .top-note span {
+            color: var(--lime);
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: rgba(255, 255, 255, .96);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .brand-mark {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--yellow);
+            font-size: 19px;
+            transform: rotate(-5deg);
+        }
+
+        .brand-name {
+            font-family: var(--display);
+            font-size: 25px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+        .brand-name span {
+            color: var(--green);
+        }
+
+        .delivery {
+            min-width: 165px;
+            border-left: 1px solid var(--line);
+            padding-left: 24px;
+        }
+
+        .delivery strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .delivery small {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .search {
+            height: 43px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 15px;
+            border: 1px solid #e8ebe4;
+            border-radius: 8px;
+            background: #f8f9f6;
+            color: #8d958d;
+        }
+
+        .search svg {
+            width: 17px;
+            height: 17px;
+            flex: none;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: var(--ink);
+            font-size: 13px;
+        }
+
+        .search input::placeholder {
+            color: #929991;
+        }
+
+        .account {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 0;
+            background: none;
+            color: #49534d;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .account svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .cart {
+            height: 43px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 16px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--green);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s, transform .2s;
+        }
+
+        .cart:hover {
+            background: #08733a;
+            transform: translateY(-1px);
+        }
+
+        .cart svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        main {
+            padding: 25px 0 56px;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 335px;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            overflow: hidden;
+            border-radius: 12px;
+            background: var(--lime);
+            isolation: isolate;
+        }
+
+        .hero::after {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            width: 440px;
+            height: 440px;
+            right: 7%;
+            top: -55%;
+            border: 1px solid rgba(21, 35, 29, .12);
+            border-radius: 50%;
+            box-shadow: 0 0 0 35px rgba(21, 35, 29, .035), 0 0 0 70px rgba(21, 35, 29, .025);
+        }
+
+        .hero-copy {
+            align-self: center;
+            padding: 42px 0 42px 54px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #395531;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            content: "";
+        }
+
+        h1 {
+            max-width: 470px;
+            margin: 15px 0 11px;
+            font-family: var(--display);
+            font-size: clamp(38px, 5vw, 61px);
+            font-weight: 800;
+            letter-spacing: -3.2px;
+            line-height: .99;
+        }
+
+        h1 span {
+            color: var(--green);
+        }
+
+        .hero-copy p {
+            margin: 0;
+            color: #4a5942;
+            font-size: 14px;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .shop-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            transition: transform .2s;
+        }
+
+        .shop-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .shop-btn span {
+            font-size: 16px;
+        }
+
+        .hero-caption {
+            color: #59674e;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .hero-art {
+            position: relative;
+            min-height: 300px;
+        }
+
+        .hero-art img {
+            position: absolute;
+            width: 94%;
+            height: 112%;
+            right: 0;
+            bottom: -7%;
+            object-fit: cover;
+            object-position: center;
+            mix-blend-mode: multiply;
+            mask-image: linear-gradient(to right, transparent, black 18%);
+        }
+
+        .hero-sticker {
+            position: absolute;
+            z-index: 1;
+            right: 10%;
+            top: 19%;
+            width: 88px;
+            height: 88px;
+            display: grid;
+            align-content: center;
+            justify-items: center;
+            border: 2px solid rgba(255, 255, 255, .65);
+            border-radius: 50%;
+            background: var(--coral);
+            color: #fff;
+            transform: rotate(9deg);
+        }
+
+        .hero-sticker strong {
+            font-family: var(--display);
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .hero-sticker span {
+            margin-top: 4px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .category-strip {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 12px;
+            margin: 25px 0 40px;
+        }
+
+        .category {
+            min-width: 0;
+            display: grid;
+            justify-items: center;
+            gap: 9px;
+            padding: 13px 7px 12px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: var(--paper);
+            transition: border-color .2s, transform .2s;
+        }
+
+        .category:hover {
+            border-color: #b7d77c;
+            transform: translateY(-3px);
+        }
+
+        .category-icon {
+            width: 61px;
+            height: 61px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #edf5db;
+            font-size: 29px;
+        }
+
+        .category:nth-child(2n) .category-icon {
+            background: #fff2df;
+        }
+
+        .category:nth-child(3n) .category-icon {
+            background: #e5f1ec;
+        }
+
+        .category span:last-child {
+            color: #364039;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            margin-bottom: 17px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-family: var(--display);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
+
+        .section-heading p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .see-all {
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .product {
+            position: relative;
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid #eceee8;
+            border-radius: 8px;
+            background: var(--paper);
+            transition: box-shadow .2s, transform .2s;
+        }
+
+        .product:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(21, 35, 29, .08);
+        }
+
+        .product-image {
+            position: relative;
+            height: 155px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: #f4f6ed;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .35s;
+        }
+
+        .product:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .tag {
+            position: absolute;
+            top: 9px;
+            left: 9px;
+            padding: 5px 7px;
+            border-radius: 3px;
+            background: var(--yellow);
+            color: #3a3b20;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .time {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #777f78;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .time svg {
+            width: 11px;
+            height: 11px;
+        }
+
+        .product h3 {
+            min-height: 36px;
+            margin: 8px 0 3px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .weight {
+            color: #8a918a;
+            font-size: 10px;
+        }
+
+        .buy-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .price {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .price del {
+            margin-left: 4px;
+            color: #9da39c;
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        .add-btn {
+            min-width: 53px;
+            padding: 6px 11px;
+            border: 1px solid #16894a;
+            border-radius: 5px;
+            background: #f4fff7;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+
+        .add-btn:hover {
+            background: var(--green);
+            color: white;
+        }
+
+        .promise {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            margin-top: 38px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--line);
+            overflow: hidden;
+        }
+
+        .promise-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 11px;
+            padding: 18px 10px;
+            background: white;
+        }
+
+        .promise-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #f0f5e4;
+            font-size: 17px;
+        }
+
+        .promise-item strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .promise-item small {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .footer-inner {
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            color: #7d857e;
+            font-size: 10px;
+        }
+
+        .footer-brand {
+            color: var(--ink);
+            font-family: var(--display);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .footer-brand span {
+            color: var(--green);
+        }
+
+        .footer-note {
+            text-align: right;
+        }
+
+        @media (max-width: 850px) {
+            .nav {
+                gap: 16px;
+            }
+
+            .delivery {
+                min-width: auto;
+                padding-left: 15px;
+            }
+
+            .delivery small {
+                max-width: 135px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .hero-copy {
+                padding-left: 34px;
+            }
+
+            .hero-art img {
+                width: 105%;
+            }
+
+            .category-strip {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .products {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .wrap {
+                width: min(100% - 28px, 460px);
+            }
+
+            .top-note {
+                font-size: 10px;
+            }
+
+            .nav {
+                min-height: 64px;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 11px 0;
+            }
+
+            .brand {
+                margin-right: auto;
+            }
+
+            .brand-name {
+                font-size: 23px;
+            }
+
+            .delivery {
+                order: 2;
+                width: calc(100% - 107px);
+                border-left: 0;
+                padding: 0;
+            }
+
+            .delivery strong {
+                font-size: 11px;
+            }
+
+            .delivery small {
+                max-width: 100%;
+                font-size: 10px;
+            }
+
+            .account {
+                order: 1;
+                padding: 7px;
+                font-size: 0;
+            }
+
+            .account svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .cart {
+                order: 3;
+                height: 38px;
+                padding: 0 12px;
+                font-size: 11px;
+            }
+
+            .cart svg {
+                width: 16px;
+            }
+
+            .search {
+                order: 4;
+                flex: 1 0 100%;
+                height: 39px;
+            }
+
+            main {
+                padding-top: 16px;
+            }
+
+            .hero {
+                min-height: 410px;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 175px;
+            }
+
+            .hero-copy {
+                align-self: start;
+                padding: 27px 24px 0;
+            }
+
+            h1 {
+                max-width: 340px;
+                margin-top: 11px;
+                font-size: 43px;
+                letter-spacing: -2.6px;
+            }
+
+            .hero-copy p {
+                max-width: 280px;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .hero-actions {
+                margin-top: 17px;
+            }
+
+            .shop-btn {
+                padding: 10px 12px;
+                font-size: 11px;
+            }
+
+            .hero-art {
+                min-height: 0;
+            }
+
+            .hero-art img {
+                width: 100%;
+                height: 230px;
+                right: 0;
+                bottom: -34px;
+                object-position: center 54%;
+                mask-image: linear-gradient(to bottom, transparent, black 15%);
+            }
+
+            .hero-sticker {
+                top: 1%;
+                right: 9%;
+                width: 68px;
+                height: 68px;
+            }
+
+            .hero-sticker strong {
+                font-size: 19px;
+            }
+
+            .hero-sticker span {
+                font-size: 8px;
+            }
+
+            .category-strip {
+                gap: 8px;
+                margin: 16px 0 30px;
+            }
+
+            .category {
+                gap: 7px;
+                padding: 10px 4px;
+            }
+
+            .category-icon {
+                width: 51px;
+                height: 51px;
+                font-size: 25px;
+            }
+
+            .category span:last-child {
+                font-size: 9px;
+            }
+
+            .section-heading h2 {
+                font-size: 19px;
+            }
+
+            .products {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .product-image {
+                height: 145px;
+            }
+
+            .product-info {
+                padding: 10px;
+            }
+
+            .promise {
+                grid-template-columns: 1fr;
+                margin-top: 28px;
+            }
+
+            .promise-item {
+                justify-content: flex-start;
+                padding-left: 24px;
+            }
+
+            .footer-inner {
+                min-height: 70px;
+                font-size: 9px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-note">Your everyday shopping, delivered in minutes <span>• Free delivery on your first order</span>
+    </div>
+    <header class="header">
+        <nav class="nav wrap" aria-label="Main navigation">
+            <a class="brand" href="#home" aria-label="Blinkit home">
+                <span class="brand-mark" aria-hidden="true">⚡</span>
+                <span class="brand-name">blink<span>it</span></span>
+            </a>
+            <div class="delivery"><strong>Delivery in 10 minutes</strong><small>Home · 221B Baker Street, London</small>
+            </div>
+            <label class="search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m20 20-4-4"></path>
+                </svg>
+                <input type="search" placeholder="Search for atta, milk, chocolates..." aria-label="Search products">
+            </label>
+            <button class="account" type="button" aria-label="Sign in">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+                </svg>
+                Login
+            </button>
+            <button class="cart" type="button" aria-label="View cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.4L22 9H6"></path>
+                    <circle cx="10" cy="21" r="1"></circle>
+                    <circle cx="18" cy="21" r="1"></circle>
+                </svg>
+                My cart
+            </button>
+        </nav>
+    </header>
+
+    <main class="wrap" id="home">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <span class="eyebrow">Good things, right around the corner</span>
+                <h1 id="hero-title">Little shop.<br><span>Big happy.</span></h1>
+                <p>Fresh picks and daily essentials, at your door before the kettle boils.</p>
+                <div class="hero-actions"><a class="shop-btn" href="#groceries">Shop groceries <span
+                            aria-hidden="true">→</span></a><span class="hero-caption">Free delivery over £15</span>
+                </div>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                    alt="">
+                <div class="hero-sticker"><strong>10</strong><span>min delivery</span></div>
+            </div>
+        </section>
+
+        <section class="category-strip" aria-label="Shop by category">
+            <a class="category" href="#groceries"><span class="category-icon" aria-hidden="true">🥬</span><span>Fresh
+                    veggies</span></a>
+            <a class="category" href="#groceries"><span class="category-icon" aria-hidden="true">🍎</span><span>Fresh
+                    fruits</span></a>
+            <a class="category" href="#groceries"><span class="category-icon" aria-hidden="true">🥛</span><span>Dairy
+                    &amp; eggs</span></a>
+            <a class="category" href="#groceries"><span class="category-icon"
+                    aria-hidden="true">🍞</span><span>Bakery</span></a>
+            <a class="category" href="#groceries"><span class="category-icon" aria-hidden="true">🥤</span><span>Cold
+                    drinks</span></a>
+            <a class="category" href="#groceries"><span class="category-icon"
+                    aria-hidden="true">🍿</span><span>Snacks</span></a>
+            <a class="category" href="#groceries"><span class="category-icon" aria-hidden="true">🧴</span><span>Personal
+                    care</span></a>
+            <a class="category" href="#groceries"><span class="category-icon"
+                    aria-hidden="true">🧹</span><span>Household</span></a>
+        </section>
+
+        <section id="groceries" aria-labelledby="products-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="products-title">Your daily fresh picks</h2>
+                    <p>The good stuff, picked fresh and delivered fast.</p>
+                </div>
+                <a class="see-all" href="#groceries">See all products <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="products">
+                <article class="product">
+                    <div class="product-image"><img
+                            src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&amp;fit=crop&amp;w=500&amp;h=400&amp;q=80"
+                            alt="Fresh red apples"><span class="tag">Fresh pick</span></div>
+                    <div class="product-info"><span class="time"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg> 10 mins</span>
+                        <h3>Royal Gala Apples</h3><span class="weight">4 pieces · approx. 500 g</span>
+                        <div class="buy-row"><span class="price">£2.49 <del>£2.99</del></span><button class="add-btn"
+                                type="button">ADD</button></div>
+                    </div>
+                </article>
+                <article class="product">
+                    <div class="product-image"><img
+                            src="https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&amp;fit=crop&amp;w=500&amp;h=400&amp;q=80"
+                            alt="Ripe bananas"><span class="tag">Daily deal</span></div>
+                    <div class="product-info"><span class="time"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg> 10 mins</span>
+                        <h3>Organic Bananas</h3><span class="weight">5-6 pieces · approx. 500 g</span>
+                        <div class="buy-row"><span class="price">£1.29 <del>£1.59</del></span><button class="add-btn"
+                                type="button">ADD</button></div>
+                    </div>
+                </article>
+                <article class="product">
+                    <div class="product-image"><img
+                            src="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&amp;fit=crop&amp;w=500&amp;h=400&amp;q=80"
+                            alt="Glass of fresh milk"></div>
+                    <div class="product-info"><span class="time"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg> 10 mins</span>
+                        <h3>Farm Fresh Whole Milk</h3><span class="weight">1 litre · pasteurised</span>
+                        <div class="buy-row"><span class="price">£1.65</span><button class="add-btn"
+                                type="button">ADD</button></div>
+                    </div>
+                </article>
+                <article class="product">
+                    <div class="product-image"><img
+                            src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&amp;fit=crop&amp;w=500&amp;h=400&amp;q=80"
+                            alt="Fresh green salad leaves"><span class="tag">Farm fresh</span></div>
+                    <div class="product-info"><span class="time"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg> 10 mins</span>
+                        <h3>Garden Salad Leaves</h3><span class="weight">1 bag · approx. 150 g</span>
+                        <div class="buy-row"><span class="price">£1.89</span><button class="add-btn"
+                                type="button">ADD</button></div>
+                    </div>
+                </article>
+                <article class="product">
+                    <div class="product-image"><img
+                            src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&amp;fit=crop&amp;w=500&amp;h=400&amp;q=80"
+                            alt="Freshly baked doughnuts"><span class="tag">Bestseller</span></div>
+                    <div class="product-info"><span class="time"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg> 10 mins</span>
+                        <h3>Chocolate Glazed Doughnuts</h3><span class="weight">2 pieces · baked today</span>
+                        <div class="buy-row"><span class="price">£2.25</span><button class="add-btn"
+                                type="button">ADD</button></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="promise" aria-label="Our promises">
+            <div class="promise-item"><span class="promise-icon" aria-hidden="true">⚡</span>
+                <div><strong>At your door in minutes</strong><small>Quick delivery, right when you need it</small></div>
+            </div>
+            <div class="promise-item"><span class="promise-icon" aria-hidden="true">🥦</span>
+                <div><strong>Freshness, always</strong><small>Quality picks you can feel good about</small></div>
+            </div>
+            <div class="promise-item"><span class="promise-icon" aria-hidden="true">♡</span>
+                <div><strong>Made for everyday</strong><small>Little things that make life easier</small></div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-inner wrap"><span class="footer-brand">blink<span>it</span></span><span>Groceries, sorted. ©
+                2025 Blinkit</span><span class="footer-note">Made with care for your neighbourhood.</span></div>
+    </footer>
+</body>
+
+</html>
